@@ -82,6 +82,14 @@ input, button, select, textarea {
         /* Atur ulang posisi tombol Refresh (Diatas tombol Scroll Top) */
         .fab-refresh { width: 45px; height: 45px; font-size: 1.2rem; bottom: 140px !important; right: 20px; z-index: 1020; }
         .table-responsive { display: block; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+        /* Mengangkat posisi Chatbot di HP agar tidak tertutup menu bawah */
+    #btnChatbot {
+        bottom: 90px !important; 
+    }
+    #chatWindow {
+        bottom: 160px !important;
+    }
     }
 
     /* Styling Efek Menu Bawah HP */
@@ -135,7 +143,7 @@ input, button, select, textarea {
         </form>
         <div class="text-center mt-4 small text-secondary">
                 &copy; <span id="yearApp"></span> SiBuk InSTal <span id="footSchoolName" class="fw-bold"></span>. All Rights Reserved. <br>
-                <a href="javascript:void(0)" onclick="showPrivacy()">Kebijakan Privasi</a><br> Created by : <a href='https://www.farypin-inovasiteknologi.com' rel='dofollow' style='color:blue;'>PT Farypin Inovasi Teknologi</a>
+                <a href="javascript:void(0)" onclick="showPrivacy()">Kebijakan Privasi</a> &bull; Created by : <a href='https://www.farypin-inovasiteknologi.com' rel='dofollow' style='color:blue;'>PT Farypin Inovasi Teknologi</a>
             </div>
     </div>
 </div>
@@ -379,7 +387,7 @@ input, button, select, textarea {
             </div>
         </footer>
 
-<button class="btn btn-primary rounded-circle shadow-lg" style="position: fixed; bottom: 30px; left: 30px; width: 60px; height: 60px; z-index: 9999; display: flex; align-items: center; justify-content: center;" onclick="$('#chatWindow').toggleClass('hidden')">
+<button id="btnChatbot" class="btn btn-primary rounded-circle shadow-lg" style="position: fixed; bottom: 30px; left: 30px; width: 60px; height: 60px; z-index: 9999; display: flex; align-items: center; justify-content: center;" onclick="$('#chatWindow').toggleClass('hidden')">
     <i class="bi bi-robot fs-3"></i>
 </button>
 
@@ -526,8 +534,7 @@ input, button, select, textarea {
 // KONFIGURASI API (GANTI URL INI)
 // ==========================================
 // Ganti URL di bawah ini dengan URL Web App Google Apps Script kamu yang sudah dideploy baru!
-const API_URL = "https://script.google.com/a/macros/admin.sma.belajar.id/s/AKfycbzFtllSAPuU80LPrFR0TtwZnI0KeC1AlfhTczfBxgP_KX1bwMv1h2ogln2g2rjw7b4m/exec"; 
-
+const API_URL = "https://script.google.com/a/macros/admin.sma.belajar.id/s/AKfycbymArWivntpSawJaxrE1gU-Wuh7wVZntndu5tdRMi33k6Oh4_ZBxac2TNrPp9nxgpXC/exec"; 
 
 let globalConf = {}; // Menampung pengaturan sekolah
 let globalSiswa=[], curSmt=1, cropper, cropTarget, curPage='dash';
@@ -1216,18 +1223,16 @@ function kirimChat() {
     $('#chatBody').append(`<div id="${idLoading}" class="mb-2 text-start"><span class="badge bg-secondary p-2 rounded-3 text-wrap"><div class="spinner-border spinner-border-sm"></div> Memikirkan jawaban...</span></div>`);
     $('#chatBody').scrollTop($('#chatBody')[0].scrollHeight); // Auto-scroll ke bawah
     
-    // Kirim ke backend (Sertakan data memori lokal agar AI bisa menganalisis)
+    // Kirim hanya teks pesan ke backend (Backend yang akan mencari datanya)
     callAPI('askChatbot', {
-        pesan: pesan,
-        semuaSiswa: globalSiswa, 
-        semuaMapel: globalMapel
+        pesan: pesan
     }).then(res => {
         $('#' + idLoading).remove();
         if(res.status === 'success') {
             const htmlText = res.hasilAI.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-            $('#chatBody').append(`<div class="mb-2 text-start"><span class="badge bg-info text-dark p-2 rounded-3 text-wrap text-start" style="max-width: 80%; line-height: 1.4;">${htmlText}</span></div>`);
+            $('#chatBody').append(`<div class="mb-2 text-start"><span class="badge bg-info text-dark p-2 rounded-3 text-wrap text-start" style="max-width: 80%; line-height: 1.4; white-space: normal;">${htmlText}</span></div>`);
         } else {
-            $('#chatBody').append(`<div class="mb-2 text-start"><span class="badge bg-danger p-2 rounded-3 text-wrap text-start" style="max-width: 80%; line-height: 1.4;">Waduh, gagal: ${res.message}</span></div>`);
+            $('#chatBody').append(`<div class="mb-2 text-start"><span class="badge bg-danger p-2 rounded-3 text-wrap text-start" style="max-width: 80%; line-height: 1.4; white-space: normal;">Waduh, gagal: ${res.message}</span></div>`);
         }
         $('#chatBody').scrollTop($('#chatBody')[0].scrollHeight);
     });
