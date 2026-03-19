@@ -118,7 +118,7 @@ input, button, select, textarea {
              <center>
                 <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgpnOpoQv4zKvXKWgVq_tFB5gKYVbjd8i-fgApUH-b36SrMAaqRX8V7ZFU3bU60gt8I8d77wlTeRI_F8UdMGaZl26EvQw6bBiwtFAygUMiaXSM7tDN-xiPl6r3RguMlwQ3N4BQ-fWaJ62_b318672r9c-iPiGHLhd9y4QHDPBc9SoFpTPwdDp0rkgLf6B4E/s100/Logo%20SiBuk%20InSTal.png" class="width:50px">
              </center>
-            <span class="text-muted small">Sistem Buku Induk Siswa Digital</span>
+            <span class="text-muted small">Sistem Buku Induk Siswa Digital</span><br>
             <span class="text-muted small">Versi Baru: Dilengkapi Fitur AI</span>
         </div>
         <form onsubmit="doLogin(event)">
@@ -378,6 +378,29 @@ input, button, select, textarea {
                 <a href="javascript:void(0)" onclick="showPrivacy()">Kebijakan Privasi</a> &bull; Created by : <a href='https://www.farypin-inovasiteknologi.com' rel='dofollow' style='color:blue;'>PT Farypin Inovasi Teknologi</a>
             </div>
         </footer>
+
+<button class="btn btn-primary rounded-circle shadow-lg" style="position: fixed; bottom: 30px; left: 30px; width: 60px; height: 60px; z-index: 9999; display: flex; align-items: center; justify-content: center;" onclick="$('#chatWindow').toggleClass('hidden')">
+    <i class="bi bi-robot fs-3"></i>
+</button>
+
+<div id="chatWindow" class="card shadow-lg hidden" style="position: fixed; bottom: 100px; left: 30px; width: 350px; max-width: 90vw; height: 450px; z-index: 9999; display: flex; flex-direction: column;">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <span class="fw-bold"><i class="bi bi-robot"></i> Asisten Data AI</span>
+        <button class="btn-close btn-close-white" onclick="$('#chatWindow').addClass('hidden')"></button>
+    </div>
+    <div id="chatBody" class="card-body bg-light" style="overflow-y: auto; flex-grow: 1;">
+        <div class="mb-2 text-start"><span class="badge bg-secondary p-2 rounded-3 text-wrap text-start" style="max-width: 80%; line-height: 1.4;">Halo! Aku asisten AI-mu. Ada yang ingin dicari tentang data siswa kita hari ini?</span></div>
+    </div>
+    <div class="card-footer bg-white">
+        <div class="input-group">
+            <input type="text" id="chatInput" class="form-control" placeholder="Ketik pertanyaan..." onkeypress="if(event.key === 'Enter') kirimChat()">
+            <button class="btn btn-primary" onclick="kirimChat()"><i class="bi bi-send"></i></button>
+        </div>
+    </div>
+</div>
+
+
+
     </div>
   </div>
 </div>
@@ -488,25 +511,7 @@ input, button, select, textarea {
 
 <div class="modal fade" id="mdlMapel"><div class="modal-dialog"><div class="modal-content"><form id="formMapel" onsubmit="saveMapel(event)"><div class="modal-header"><h5 class="modal-title" id="lblModalMapel">Data Mata Pelajaran</h5></div><div class="modal-body"><input type="hidden" id="oldIdMapel"><div class="mb-3"><label class="fw-bold small">Kode Mapel</label><input id="idMapel" class="form-control" required></div><div class="mb-3"><label class="fw-bold small">Nama Mapel</label><input id="nmMapel" class="form-control" required></div></div><div class="modal-footer"><button type="submit" class="btn btn-primary fw-bold px-4">SIMPAN</button></div></form></div></div></div>
 
-<button class="btn btn-primary rounded-circle shadow-lg" style="position: fixed; bottom: 30px; left: 30px; width: 60px; height: 60px; z-index: 9999; display: flex; align-items: center; justify-content: center;" onclick="$('#chatWindow').toggleClass('hidden')">
-    <i class="bi bi-robot fs-3"></i>
-</button>
 
-<div id="chatWindow" class="card shadow-lg hidden" style="position: fixed; bottom: 100px; left: 30px; width: 350px; max-width: 90vw; height: 450px; z-index: 9999; display: flex; flex-direction: column;">
-    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-        <span class="fw-bold"><i class="bi bi-robot"></i> Asisten Data AI</span>
-        <button class="btn-close btn-close-white" onclick="$('#chatWindow').addClass('hidden')"></button>
-    </div>
-    <div id="chatBody" class="card-body bg-light" style="overflow-y: auto; flex-grow: 1;">
-        <div class="mb-2 text-start"><span class="badge bg-secondary p-2 rounded-3 text-wrap text-start" style="max-width: 80%; line-height: 1.4;">Halo! Aku asisten AI-mu. Ada yang ingin dicari tentang data siswa kita hari ini?</span></div>
-    </div>
-    <div class="card-footer bg-white">
-        <div class="input-group">
-            <input type="text" id="chatInput" class="form-control" placeholder="Ketik pertanyaan..." onkeypress="if(event.key === 'Enter') kirimChat()">
-            <button class="btn btn-primary" onclick="kirimChat()"><i class="bi bi-send"></i></button>
-        </div>
-    </div>
-</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -521,7 +526,8 @@ input, button, select, textarea {
 // KONFIGURASI API (GANTI URL INI)
 // ==========================================
 // Ganti URL di bawah ini dengan URL Web App Google Apps Script kamu yang sudah dideploy baru!
-const API_URL = "https://script.google.com/a/macros/admin.sma.belajar.id/s/AKfycbwLOu72UBdiQmBh0H4wFkXQ-g_RQxEK5os47eEWRwyy22dVtDnAqm_jSsHn2wwiHOOw/exec"; 
+const API_URL = "https://script.google.com/a/macros/admin.sma.belajar.id/s/AKfycbzFtllSAPuU80LPrFR0TtwZnI0KeC1AlfhTczfBxgP_KX1bwMv1h2ogln2g2rjw7b4m/exec"; 
+
 
 let globalConf = {}; // Menampung pengaturan sekolah
 let globalSiswa=[], curSmt=1, cropper, cropTarget, curPage='dash';
