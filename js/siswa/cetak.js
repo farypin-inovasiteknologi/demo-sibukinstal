@@ -236,6 +236,7 @@ function prosesCetakMassal(tipe, targetData, bagian) {
             html2pdf().set(opt).from(html).toPdf().get('pdf').then(function(pdf) {
                 let blobUrl = pdf.output('bloburl');
                 $('#pdfPreviewFrame').attr('src', blobUrl);
+                $('#btnOpenPdf').attr('href', blobUrl);
                 $('#btnDownloadPdf').off('click').on('click', function() {
                     pdf.save(opt.filename);
                 });
