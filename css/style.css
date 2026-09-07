@@ -308,6 +308,17 @@ textarea {
     z-index: 3000 !important;
 }
 
+#mdlPdfPreview {
+    z-index: 3000 !important;
+}
+
+#mdlPdfPreview .modal-footer a,
+#mdlPdfPreview .modal-footer button {
+    position: relative;
+    z-index: 1;
+    pointer-events: auto;
+}
+
 .fab-refresh {
     position: fixed;
     bottom: 30px;
