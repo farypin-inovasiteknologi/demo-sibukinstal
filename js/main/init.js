@@ -653,14 +653,23 @@ function cropImage(input, target) {
 $('#btnCrop').click(() => {
     if (!cropper) return;
 
-    // Cek apakah yang dipotong ini logo atau foto siswa
+    // Background perlu resolusi lebih besar karena direntangkan memenuhi layar.
+    // Foto siswa tetap kecil agar upload dan sinkronisasi tetap ringan.
     const isLogo = cropTarget.includes('logo');
-
-    // Jika Logo -> Tetap PNG (Transparan). Jika Foto -> Jadi JPEG (Ukurannya sangat kecil dan cepat)
+    const isBackground = ['background_landing', 'background_login'].includes(cropTarget);
     const mimeType = isLogo ? 'image/png' : 'image/jpeg';
-    const quality = isLogo ? undefined : 0.7; // Kualitas 70% untuk JPEG
+    const quality = isLogo ? undefined : (isBackground ? 0.85 : 0.7);
+    const sourceCanvas = cropper.getCroppedCanvas();
+    const maxWidth = isBackground ? 1600 : 400;
+    let canvas = sourceCanvas;
 
-    const canvas = cropper.getCroppedCanvas({ width: 400 });
+    if (sourceCanvas.width > maxWidth) {
+        canvas = document.createElement('canvas');
+        canvas.width = maxWidth;
+        canvas.height = Math.round(sourceCanvas.height * maxWidth / sourceCanvas.width);
+        canvas.getContext('2d').drawImage(sourceCanvas, 0, 0, canvas.width, canvas.height);
+    }
+
     const base64 = canvas.toDataURL(mimeType, quality);
 
     bootstrap.Modal.getInstance(document.getElementById('mdlCrop')).hide();
